@@ -13,6 +13,11 @@ public interface ClassTree {
 	 * */
 	public Set<Class<?>> getClasses(String path);
 	
+	
+	/**
+	 * @param path
+	 * @return Class<?> the class or null
+	 * */
 	public Class<?> getClass(String path);
 
 }

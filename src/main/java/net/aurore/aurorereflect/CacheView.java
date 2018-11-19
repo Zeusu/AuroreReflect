@@ -12,10 +12,20 @@ import net.aurore.system.ClassTree;
  */
 public interface CacheView {
 
+	/**
+	 * Clear the cache, remove all trees and classes
+	 * */
 	public void clear();
 	
+	/**
+	 * Reload the trees, and so the files
+	 * */
 	public void refresh();
 	
+	
+	/**
+	 * return trees in the cache
+	 * */
 	public ClassTree[] getTrees();
 	
 }
