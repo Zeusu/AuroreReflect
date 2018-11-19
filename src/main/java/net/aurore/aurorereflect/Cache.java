@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import net.aurore.system.ClassFolderTree;
@@ -131,7 +132,14 @@ public class Cache {
 	}
 	
 	private static ClassTree[] getTrees() {
-		return null;
+		Set<Entry<URL, ClassTree>> entries = INSTANCE.trees.entrySet();
+		ClassTree[] result = new ClassTree[entries.size()];
+		int i = 0;
+		for(Entry<URL,ClassTree> e : entries) {
+			result[i] = e.getValue();
+			i++;
+		}
+		return result;
 	}
 
 }

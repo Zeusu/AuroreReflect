@@ -2,6 +2,8 @@ package net.aurore.aurorereflect;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Set;
+
 import org.junit.Test;
 
 @TestClass
@@ -12,6 +14,9 @@ public class AuroreReflectTest {
 		AuroreReflect r = new AuroreReflectImpl(CacheStrategy.PERSISTANT, ReflectStrategy.CLASSPATH);
 		r.setPackagePath("net.aurore.aurorereflect");
 		assertEquals(1,r.getTypeAnnotatedWith(TestClass.class).size());
+		Set<Class<?>> classes = r.getClasses("net.aurore.aurorereflect");
+		System.out.println(classes.size());
+		System.out.println(classes);
 	}
 
 	@Test

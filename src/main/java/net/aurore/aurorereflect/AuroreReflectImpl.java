@@ -61,7 +61,9 @@ public class AuroreReflectImpl implements AuroreReflect {
 		} else {
 			for (ClassTree t : cache.getContext(this.path)) {
 				if (t != null) {
-					result.add(t.getClass(path));
+					Set<Class<?>> potentials = t.getClasses(path);
+					if(potentials != null && potentials.size() > 0)
+						result.addAll(potentials);
 				}
 			}
 		}

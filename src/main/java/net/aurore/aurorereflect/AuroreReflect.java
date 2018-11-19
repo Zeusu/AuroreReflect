@@ -15,7 +15,7 @@ import java.util.Set;
 public interface AuroreReflect {
 	
 	/**
-	 * Return a set of classes which match the specified path. The last part must be the class name.
+	 * Return a set of classes which match the specified path.
 	 * @param path
 	 * @return Set<Class<?>>
 	 * */
