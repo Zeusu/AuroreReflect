@@ -3,6 +3,9 @@
  */
 package net.aurore.aurorereflect;
 
+import java.net.URL;
+
+import net.aurore.observable.Observer;
 import net.aurore.system.ClassTree;
 
 /**
@@ -27,5 +30,10 @@ public interface CacheView {
 	 * return trees in the cache
 	 * */
 	public ClassTree[] getTrees();
+	
+	/**
+	 * attach the observer
+	 * */
+	public void attach(Observer<URL> obs);
 	
 }

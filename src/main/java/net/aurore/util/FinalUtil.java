@@ -23,6 +23,10 @@ public final class FinalUtil {
 	
 	public static final String PROTOCOLE_FILE;
 	
+	public static final String SETTER = "set";
+
+	public static final String GETTER = "get";
+	
 	static {
 		if(System.getProperty("os.name").toLowerCase().matches(WINDOWS)) {
 			PROTOCOLE_FILE = PROTOCOLE_FILE_WINDOWS;

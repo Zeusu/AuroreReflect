@@ -76,6 +76,7 @@ public class ClassFolderTree implements ClassTree{
 		return result;
 	}
 	
+	
 	@Override
 	public Class<?> getClass(String path) {
 		String[] splittedPath = path.split(SEPARATOR);

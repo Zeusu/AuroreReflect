@@ -12,8 +12,8 @@ public class AuroreReflectTest {
 	@Test
 	public void testReflect() {
 		AuroreReflect r = new AuroreReflectImpl(CacheStrategy.PERSISTANT, ReflectStrategy.CLASSPATH);
-		r.setPackagePath("net.aurore.aurorereflect");
-		assertEquals(1,r.getTypeAnnotatedWith(TestClass.class).size());
+		//r.setPackagePath("net.aurore.aurorereflect");
+		assertEquals(1,r.getTypeAnnotatedWith("net.aurore.aurorereflect", TestClass.class).size());
 		Set<Class<?>> classes = r.getClasses("net.aurore.aurorereflect");
 		System.out.println(classes.size());
 		System.out.println(classes);

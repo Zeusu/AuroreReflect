@@ -3,8 +3,6 @@ package net.aurore.aurorereflect;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Set;
 
@@ -28,6 +26,14 @@ public interface AuroreReflect {
 	 * */
 	public Set<Class<?>> getTypeAnnotatedWith(Class<? extends Annotation> a);
 	
+	
+	/**
+	 * Return a set of classes with annotated with a within the package.
+	 * @param a  
+	 * @return Set<Class<?>>
+	 * */
+	public Set<Class<?>> getTypeAnnotatedWith(String packagePath, Class<? extends Annotation> a);
+	
 	/**
 	 * Return a set of classes with annotated with a and extending/implementing c.
 	 * @param a c
@@ -35,29 +41,18 @@ public interface AuroreReflect {
 	 * */
 	public Set<Class<?>> getTypeAnnotatedWithAndAssignableFrom(Class<? extends Annotation> a, Class<?> c);
 	
-	/**
-	 * Return a set of field with annotated with a in c.
-	 * @param c a
-	 * @return Set<Class<?>>
-	 * */
-	public Set<Field> getFieldsAnnotatedWith(Class<?> c, Class<? extends Annotation> a);
+	
 	
 	/**
-	 * Return a set of field with annotated with a in c.
-	 * @param c a
+	 * Return a set of classes with annotated with a and extending/implementing c within the package.
+	 * @param a c
 	 * @return Set<Class<?>>
 	 * */
-	public Set<Field> getPublicFieldsAnnotatedWith(Class<?> c, Class<? extends Annotation> a);
+	public Set<Class<?>> getTypeAnnotatedWithAndAssignableFrom(String packagePath, Class<? extends Annotation> a, Class<?> c);
+	
 	
 	/**
-	 * Return a methods of field with annotated with a in c.
-	 * @param c a
-	 * @return Set<Class<?>>
-	 * */
-	public Set<Method> getMethodsAnnotatedWidth(Class<?> c, Class<? extends Annotation> a);
-	
-	/**
-	 * Set the package path. This method must be call before getClassesAnnotatedWith.
+	 * Set the package path. This method must be call before getClassesAnnotatedWith(Class<? extends Annotation> a).
 	 * @param packagePath
 	 * */
 	public void setPackagePath(String packagePath);
@@ -73,6 +68,5 @@ public interface AuroreReflect {
 	 * @param url
 	 * */
 	public void expand(URL url) throws AuroreReflectAlreadyRegisteredException,  FileNotFoundException;
-
 	
 }

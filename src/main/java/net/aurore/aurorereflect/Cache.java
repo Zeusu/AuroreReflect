@@ -10,13 +10,19 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import net.aurore.observable.Observable;
+import net.aurore.observable.Observer;
 import net.aurore.system.ClassFolderTree;
 import net.aurore.system.ClassJarExpandingTree;
 import net.aurore.system.ClassJarTree;
 import net.aurore.system.ClassTree;
 import net.aurore.util.FinalUtil;
 
-public class Cache {
+/**
+ * @author Zeusu
+ *  Cache extends Observable, on add, will push the added URL to Observers 
+ * */
+public class Cache extends Observable<URL>{
 
 	
 	private static SecurityStrategy strategy = SecurityStrategy.CONTROLLABLE;
@@ -54,6 +60,7 @@ public class Cache {
 	protected void expand(URL path) throws AuroreReflectAlreadyRegisteredException, FileNotFoundException {
 		if(trees.containsKey(path)) throw new AuroreReflectAlreadyRegisteredException(path);
 		trees.put(path, new ClassJarExpandingTree(path));
+		update(path);
 	}
 	
 	
@@ -102,6 +109,11 @@ public class Cache {
 				public ClassTree[] getTrees() {
 					return Cache.getTrees();
 				}
+
+				@Override
+				public void attach(Observer<URL> obs) {
+					Cache.INSTANCE.attach(obs);
+				}
 			};
 		}else if(strategy.equals(SecurityStrategy.VISIBLE)) {
 			return new CacheView() {
@@ -119,6 +131,11 @@ public class Cache {
 				@Override
 				public ClassTree[] getTrees() {
 					return Cache.getTrees();
+				}
+
+				@Override
+				public void attach(Observer<URL> obs) {
+					Cache.INSTANCE.attach(obs);
 				}
 			};
 		}else {
@@ -140,6 +157,14 @@ public class Cache {
 			i++;
 		}
 		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see net.aurore.observable.Observable#pushTo(net.aurore.observable.Observer)
+	 */
+	@Override
+	public void pushTo(Observer<URL> obs, URL url) {
+		obs.onUpdate(url);
 	}
 
 }

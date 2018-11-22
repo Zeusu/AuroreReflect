@@ -3,8 +3,6 @@ package net.aurore.aurorereflect;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashSet;
@@ -72,6 +70,14 @@ public class AuroreReflectImpl implements AuroreReflect {
 
 	@Override
 	public Set<Class<?>> getTypeAnnotatedWith(Class<? extends Annotation> a){
+		return getTypeAnnotatedWith(packagePath,a);
+	}
+	
+	/* (non-Javadoc)
+	 * @see net.aurore.aurorereflect.AuroreReflect#getTypeAnnotatedWith(java.lang.String, java.lang.Class)
+	 */
+	@Override
+	public Set<Class<?>> getTypeAnnotatedWith(String packagePath, Class<? extends Annotation> a) {
 		Set<Class<?>> result = new HashSet<Class<?>>();
 		if(path.size() == 0) {
 			throw new UnsupportedOperationException(NO_PATH);
@@ -88,15 +94,27 @@ public class AuroreReflectImpl implements AuroreReflect {
 		}
 		return result;
 	}
+
+
 	
 	/* (non-Javadoc)
 	 * @see net.aurore.aurorereflect.AuroreReflect#getTypeAnnotatedWithAndAssignableFrom(java.lang.Class, java.lang.Class)
 	 */
 	@Override
 	public Set<Class<?>> getTypeAnnotatedWithAndAssignableFrom(Class<? extends Annotation> a, Class<?> c) {
+		return getTypeAnnotatedWithAndAssignableFrom(packagePath, a, c);
+	}
+	
+	
+	/* (non-Javadoc)
+	 * @see net.aurore.aurorereflect.AuroreReflect#getTypeAnnotatedWithAndAssignableFrom(java.lang.String, java.lang.Class, java.lang.Class)
+	 */
+	@Override
+	public Set<Class<?>> getTypeAnnotatedWithAndAssignableFrom(String packagePath, Class<? extends Annotation> a,
+			Class<?> c) {
 		Set<Class<?>> result = new HashSet<Class<?>>();
 		if(path.size() == 0) {
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException(NO_PATH);
 		}else {
 			for(ClassTree t : cache.getContext(path)) {
 				if(t != null) {
@@ -109,48 +127,7 @@ public class AuroreReflectImpl implements AuroreReflect {
 			}
 		}
 		return result;
-	}
-
-	/* (non-Javadoc)
-	 * @see net.aurore.aurorereflect.AuroreReflect#getFieldsAnnotatedWith(java.lang.Class, java.lang.Class)
-	 */
-	@Override
-	public Set<Field> getFieldsAnnotatedWith(Class<?> c, Class<? extends Annotation> a) {
-		Set<Field> result = new HashSet<Field>();
-		for(Field f : c.getDeclaredFields()) {
-			if(f.isAnnotationPresent(a)) result.add(f);
-		}
-		return result;
-	}
-
-	/* (non-Javadoc)
-	 * @see net.aurore.aurorereflect.AuroreReflect#getPublicFieldsAnnotatedWiith(java.lang.Class, java.lang.Class)
-	 */
-	@Override
-	public Set<Field> getPublicFieldsAnnotatedWith(Class<?> c, Class<? extends Annotation> a) {
-		Set<Field> result = new HashSet<Field>();
-		for(Field f : c.getFields()) {
-			if(f.isAnnotationPresent(a)) result.add(f);
-		}
-		return result;
-	}
-
-	/* (non-Javadoc)
-	 * @see net.aurore.aurorereflect.AuroreReflect#getMethodsAnnotatedWidth(java.lang.Class, java.lang.Class)
-	 */
-	@Override
-	public Set<Method> getMethodsAnnotatedWidth(Class<?> c, Class<? extends Annotation> a) {
-		Set<Method> result = new HashSet<Method>();
-		for(Method m : c.getMethods()) {
-			if(m.isAnnotationPresent(a)) result.add(m);
-		}
-		return result;
-	}
-	
-	
-	
-	
-	
+	}	
 	
 	@Override
 	public void setPackagePath(String packagePath) {
@@ -187,6 +164,7 @@ public class AuroreReflectImpl implements AuroreReflect {
 		return packagePath;
 	}
 
+	
 
 
 }
