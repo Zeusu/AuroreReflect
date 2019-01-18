@@ -7,20 +7,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import net.aurore.util.FinalUtil;
 
-public class ClassFolderTree implements ClassTree{
-
-	private final String group;
-	private final String name;
-	private final List<String> childs;
-	private final Map<String,ClassFolderTree> nexts;
-
-
+public class ClassFolderTree extends AbstractClassTree{
+	
+	
 	public ClassFolderTree(URL path) throws FileNotFoundException, URISyntaxException{
 		this(new File(path.toURI()));
 	}
@@ -38,7 +31,7 @@ public class ClassFolderTree implements ClassTree{
 			name = path.substring(i+2,path.length());
 			group = path.substring(0, path.length() - name.length()); 
 			childs = new ArrayList<String>();
-			nexts = new HashMap<String,ClassFolderTree>();
+			nexts = new HashMap<String,AbstractClassTree>();
 			for(String s : f.list()) {
 				File child = new File(path + FinalUtil.PATH_SEPARATOR + s);
 				if(child.isDirectory()) {
@@ -56,7 +49,7 @@ public class ClassFolderTree implements ClassTree{
 	public Set<Class<?>> getClasses(String path) {
 		Set<Class<?>> result = new HashSet<Class<?>>();
 		String[] splittedPath = path.split(SEPARATOR);
-		ClassFolderTree t = this; 
+		AbstractClassTree t = this; 
 		if(path != null) {
 			int i = 0;
 			while(t != null && i < splittedPath.length) {
@@ -65,23 +58,20 @@ public class ClassFolderTree implements ClassTree{
 			}
 		}	
 		if(t != null) {
-			for(String s : t.childs) {
-				try {
-					result.add(Class.forName(path + "." + s.substring(0, s.length() - CLASS_KEYWORD_LENGTH)));
-				}catch(Exception e) {
-					e.printStackTrace();
-				}
+			try {
+				t.getClasses(result,path);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
 			}
 		}
 		return result;
 	}
 	
-	
 	@Override
 	public Class<?> getClass(String path) {
 		String[] splittedPath = path.split(SEPARATOR);
 		String className = splittedPath[splittedPath.length - 1];
-		ClassFolderTree t = this;
+		AbstractClassTree t = this;
 		if(path != null) {
 			int i = 0;
 			while(t != null && i < splittedPath.length - 1) {
@@ -98,26 +88,6 @@ public class ClassFolderTree implements ClassTree{
 		}
 		return null;
 	}
-
-	@Override
-	public String toString() {
-		return toString("");
-
-	}
-
-	public String toString(String tabs) {
-		StringBuffer buffer = new StringBuffer();
-		buffer.append(tabs + "= " + group + name + FinalUtil.LINE_SEPARATOR);
-		tabs += FinalUtil.TAB;
-		for(String s : childs) { 
-			buffer.append(tabs + "-> " + s + FinalUtil.LINE_SEPARATOR);
-		}
-		for(Map.Entry<String, ClassFolderTree> e : nexts.entrySet()) {
-			buffer.append(e.getValue().toString(tabs));
-		}
-		return buffer.toString();
-	}
-
 
 	public static void main(String[] args) {
 		try {

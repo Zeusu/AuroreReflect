@@ -12,6 +12,7 @@ import java.util.Set;
 
 import net.aurore.observable.Observable;
 import net.aurore.observable.Observer;
+import net.aurore.system.ClassFolderExpandingTree;
 import net.aurore.system.ClassFolderTree;
 import net.aurore.system.ClassJarExpandingTree;
 import net.aurore.system.ClassJarTree;
@@ -59,7 +60,10 @@ public class Cache extends Observable<URL>{
 	
 	protected void expand(URL path) throws AuroreReflectAlreadyRegisteredException, FileNotFoundException {
 		if(trees.containsKey(path)) throw new AuroreReflectAlreadyRegisteredException(path);
-		trees.put(path, new ClassJarExpandingTree(path));
+		if(path.toString().matches(FinalUtil.JAR_REGEX))
+			trees.put(path, new ClassJarExpandingTree(path));
+		else
+			trees.put(path, new ClassFolderExpandingTree(path));
 		update(path);
 	}
 	
