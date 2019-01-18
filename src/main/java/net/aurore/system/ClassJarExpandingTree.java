@@ -29,7 +29,7 @@ public class ClassJarExpandingTree extends ClassJarTree{
 	public Set<Class<?>> getClasses(String path) {
 		Set<Class<?>> result = new HashSet<Class<?>>();
 		String[] splittedPath = path.split(SEPARATOR);
-		ClassJarTree t = this;
+		AbstractClassTree t = this;
 		if(path != null) {
 			int i = 0;
 			while(t != null && i < splittedPath.length) {
@@ -38,12 +38,10 @@ public class ClassJarExpandingTree extends ClassJarTree{
 			}
 		}	
 		if(t != null) {
-			for(String s : t.childs) {
-				try {
-					result.add(classLoader.loadClass(path + "." + s.substring(0, s.length() - CLASS_KEYWORD_LENGTH)));
-				}catch(Exception e) {
-					e.printStackTrace();
-				}
+			try {
+				t.getExpandingClasses(result, path,classLoader);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
 			}
 		}
 		return result;
@@ -53,7 +51,7 @@ public class ClassJarExpandingTree extends ClassJarTree{
 	public Class<?> getClass(String path) {
 		String[] splittedPath = path.split(SEPARATOR);
 		String className = splittedPath[splittedPath.length - 1];
-		ClassJarTree t = this;
+		AbstractClassTree t = this;
 		if(path != null) {
 			int i = 0;
 			while(t != null && i < splittedPath.length - 1) {
