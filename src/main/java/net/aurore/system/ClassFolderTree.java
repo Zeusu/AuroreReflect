@@ -9,13 +9,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.aurore.util.Escaping;
 import net.aurore.util.FinalUtil;
 
 public class ClassFolderTree extends AbstractClassTree{
 	
 	
 	public ClassFolderTree(URL path) throws FileNotFoundException, URISyntaxException{
-		this(new File(path.toURI()));
+		this(new File(Escaping.escape(path)));
 	}
 
 	private ClassFolderTree(File f) throws FileNotFoundException, URISyntaxException{

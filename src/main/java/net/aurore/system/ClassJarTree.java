@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import net.aurore.util.Escaping;
 import net.aurore.util.FinalUtil;
 
 public class ClassJarTree extends AbstractClassTree{
@@ -25,7 +26,7 @@ public class ClassJarTree extends AbstractClassTree{
 		this(url,"","");
 		JarFile jFile = null;
 		try {
-			jFile = new JarFile(new File(url.toURI()));
+			jFile = new JarFile(new File(Escaping.escape(url)));
 			Enumeration<JarEntry> entries = jFile.entries();
 			while(entries.hasMoreElements()) {
 				addEntry(entries.nextElement());

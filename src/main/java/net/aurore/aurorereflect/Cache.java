@@ -17,6 +17,7 @@ import net.aurore.system.ClassFolderTree;
 import net.aurore.system.ClassJarExpandingTree;
 import net.aurore.system.ClassJarTree;
 import net.aurore.system.ClassTree;
+import net.aurore.util.Escaping;
 import net.aurore.util.FinalUtil;
 
 /**
@@ -43,7 +44,7 @@ public class Cache extends Observable<URL>{
 	protected  ClassTree getContext(URL path){
 		if(!trees.containsKey(path)) {
 			try {
-				File f = new File(path.toURI());
+				File f = new File(Escaping.escape(path));
 				if(f.isDirectory())
 					trees.put(path, new ClassFolderTree(path));
 				else if(f.getName().matches(FinalUtil.JAR_REGEX))
@@ -51,7 +52,7 @@ public class Cache extends Observable<URL>{
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (URISyntaxException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 		return trees.get(path);
@@ -98,7 +99,7 @@ public class Cache extends Observable<URL>{
 					for(URL path : Cache.INSTANCE.trees.keySet()) {
 						
 						try {
-							File f = new File(path.toURI());
+							File f = new File(Escaping.escape(path));
 							if(f.isDirectory())
 								INSTANCE.trees.put(path, new ClassFolderTree(path));
 							else if(f.getName().matches(FinalUtil.JAR_REGEX))

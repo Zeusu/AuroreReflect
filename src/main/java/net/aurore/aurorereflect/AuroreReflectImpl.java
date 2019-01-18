@@ -10,6 +10,8 @@ import java.util.Set;
 
 import net.aurore.system.ClassTree;
 import net.aurore.system.Classpath;
+import net.aurore.system.Directory;
+import net.aurore.util.FinalUtil;
 
 public class AuroreReflectImpl implements AuroreReflect {
 	
@@ -157,14 +159,21 @@ public class AuroreReflectImpl implements AuroreReflect {
 		path.add(url);
 	}
 
+	@Override
+	public void expand(Directory directory) throws FileNotFoundException, AuroreReflectAlreadyRegisteredException {
+		for(File f : directory.listFiles()) {
+			if(f.getName().matches(FinalUtil.JAR_REGEX) && !f.isDirectory()) {
+				expand(f);
+			}
+		}
+	}
 
-	
 	
 	public String getPackagePath() {
 		return packagePath;
 	}
 
-	
+
 
 
 }
