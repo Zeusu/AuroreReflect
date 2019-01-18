@@ -16,7 +16,7 @@ public abstract class Observable<E> {
 	private List<Observer<E>> observers = new ArrayList<>();
 	
 	/**
-	 * Discribe how the push will act
+	 * Push method
 	 * */
 	public abstract void pushTo(Observer<E> obs, E e);
 	

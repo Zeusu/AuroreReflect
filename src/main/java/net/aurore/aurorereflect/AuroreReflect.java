@@ -6,6 +6,8 @@ import java.lang.annotation.Annotation;
 import java.net.URL;
 import java.util.Set;
 
+import net.aurore.system.Directory;
+
 /**
  * An AuroreReflect object is an adptater which will allow you do easy reflection. To instantiate use AuroreReflectImpl.
  * @author Zeusu
@@ -68,5 +70,14 @@ public interface AuroreReflect {
 	 * @param url
 	 * */
 	public void expand(URL url) throws AuroreReflectAlreadyRegisteredException,  FileNotFoundException;
+	
+	/**
+	 * Add tall the jar in the directory to the known classes
+	 * @param directory
+	 * @throws AuroreReflectAlreadyRegisteredException 
+	 * @throws FileNotFoundException 
+	 * */
+	public void expand(Directory directory) throws FileNotFoundException, AuroreReflectAlreadyRegisteredException;
+	
 	
 }

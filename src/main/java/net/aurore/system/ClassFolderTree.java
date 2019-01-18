@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.aurore.util.Escaping;
 import net.aurore.util.FinalUtil;
 
 public class ClassFolderTree implements ClassTree{
@@ -22,7 +23,7 @@ public class ClassFolderTree implements ClassTree{
 
 
 	public ClassFolderTree(URL path) throws FileNotFoundException, URISyntaxException{
-		this(new File(path.toURI()));
+		this(new File(Escaping.escape(path)));
 	}
 
 	private ClassFolderTree(File f) throws FileNotFoundException, URISyntaxException{
